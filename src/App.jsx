@@ -298,13 +298,19 @@ const SectionHeader = ({ eyebrow, title, subtitle }) => (
   </div>
 );
 
+const fmtKpi = (value) => {
+  const n = Number(value);
+  if (n >= 1000) return `$${(n / 1000).toFixed(1)}K`;
+  return `$${n.toFixed(0)}`;
+};
+
 const KpiCard = ({ label, value, note, accent, isCount }) => (
-  <div style={{ background: "#fff", borderRadius: 8, padding: "14px 16px", boxShadow: "0 1px 6px rgba(0,0,0,0.06)", borderLeft: `3px solid ${accent}` }}>
-    <p style={{ color: "#64748B", fontSize: 9.5, fontFamily: "Calibri, sans-serif", fontWeight: 700, margin: "0 0 6px", textTransform: "uppercase", letterSpacing: 1 }}>{label}</p>
-    <p style={{ color: "#0F1F3D", fontSize: 20, fontWeight: 700, margin: "0 0 3px", fontFamily: "Georgia, serif" }}>
-      {isCount ? value : `$${Number(value).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+  <div style={{ background: "#fff", borderRadius: 8, padding: "14px 16px", boxShadow: "0 1px 6px rgba(0,0,0,0.06)", borderLeft: `3px solid ${accent}`, minWidth: 0 }}>
+    <p style={{ color: "#64748B", fontSize: 9.5, fontFamily: "Calibri, sans-serif", fontWeight: 700, margin: "0 0 6px", textTransform: "uppercase", letterSpacing: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label}</p>
+    <p style={{ color: "#0F1F3D", fontSize: 20, fontWeight: 700, margin: "0 0 3px", fontFamily: "Georgia, serif", whiteSpace: "nowrap" }}>
+      {isCount ? value : fmtKpi(value)}
     </p>
-    <p style={{ color: "#94A3B8", fontSize: 9.5, fontFamily: "Calibri, sans-serif", margin: 0 }}>Avg of {note}</p>
+    <p style={{ color: "#94A3B8", fontSize: 9.5, fontFamily: "Calibri, sans-serif", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Avg of {note}</p>
   </div>
 );
 
@@ -369,7 +375,7 @@ export default function GivingDashboard() {
           Rolling 3-Month Average (Feb – Apr '26)
         </p>
       </div>
-      <div style={{ width: "100%", maxWidth: 820, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+      <div style={{ width: "100%", maxWidth: 820, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12 }}>
         <KpiCard label="3-Mo Avg · Total Giving" value={r3Total}     note={r3Label} accent="#0F1F3D" />
         <KpiCard label="3-Mo Avg · Recurring"    value={r3Recurring} note={r3Label} accent="#1A3260" />
         <KpiCard label="3-Mo Avg · One-Time"     value={r3OneTime}   note={r3Label} accent="#C49A3C" />
@@ -399,7 +405,7 @@ export default function GivingDashboard() {
           Rolling 3-Month Average (Feb – Apr '26)
         </p>
       </div>
-      <div style={{ width: "100%", maxWidth: 820, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+      <div style={{ width: "100%", maxWidth: 820, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12 }}>
         <KpiCard label="3-Mo Avg · Total Unique Givers" value={r3TotalG.toFixed(1)} note={r3Label} accent="#0F1F3D" isCount />
         <KpiCard label="3-Mo Avg · Active Givers"       value={r3Active.toFixed(1)} note={r3Label} accent="#028090" isCount />
         <KpiCard label="3-Mo Avg · New Givers"          value={r3New.toFixed(1)}    note={r3Label} accent="#C49A3C" isCount />
@@ -429,7 +435,7 @@ export default function GivingDashboard() {
           Rolling 3-Month Average (Feb – Apr '26)
         </p>
       </div>
-      <div style={{ width: "100%", maxWidth: 820, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+      <div style={{ width: "100%", maxWidth: 820, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12 }}>
         <KpiCard label="3-Mo Avg · Total Donations"     value={r3DonTotal.toFixed(1)}     note={r3Label} accent="#0F1F3D" isCount />
         <KpiCard label="3-Mo Avg · Recurring Donations" value={r3DonRecurring.toFixed(1)} note={r3Label} accent="#1A3260" isCount />
         <KpiCard label="3-Mo Avg · One-Time Donations"  value={r3DonOneTime.toFixed(1)}   note={r3Label} accent="#C49A3C" isCount />
